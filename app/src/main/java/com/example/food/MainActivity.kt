@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() , Food_Adapter.FoodEvent {
 
         val foodlist = arrayListOf(
 
-            Food("Pizza Regina" , "15" ,"3"  , "Italy" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/full_width_tablet_4_3/public/2022-06/pizza_regina_2.jpg" ,  20 , 5f),
+            Food( "Pizza Regina" , "15" ,"3"  , "Italy" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/full_width_tablet_4_3/public/2022-06/pizza_regina_2.jpg" ,  20 , 5f),
             Food("Piccata Milanese" , "20.99" ,"67"  , "Milan" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-07/schnitzel_milanese_1_0.jpg" ,  45 , 4.5f),
             Food("Hamburger Labskaus" , "12"  , "87" , "Berlin" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-07/2022_hamburger-labskaus_aufmacher.jpg" , 100 , 3f),
             Food("Badisches Schäufele" , "10" , "56" , "Paris" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-09/badisches_schaeufele_1_4.jpg" , 78 , 2.5f ),
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() , Food_Adapter.FoodEvent {
                     val ratingBarStar :Float = random
                     val randomforurl = (0 until 12).random()
                     val urlPic = foodlist[randomforurl].urlimage
-                    val newfood = Food(txtName , txtPrice , txtDistance , txtCity  , urlPic , txtRateingNumber , ratingBarStar)
+                    val newfood = Food(id,txtName , txtPrice , txtDistance , txtCity  , urlPic , txtRateingNumber , ratingBarStar)
                     MyAdapter.AddFood(newfood)
 
                     binding.recycleMain.scrollToPosition(0)
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() , Food_Adapter.FoodEvent {
                 val txtDistance = updateDialogBinding.dialogEdtFoodDistance.text.toString()
                 val txtPrice = updateDialogBinding.dialogEdtFoodPrice.text.toString()
                     //Create New Fool To Add Recycler View
-                val newFood = Food(txtName , txtPrice , txtDistance , txtCity , food.urlimage , food.numofrate , food.rating)
+                val newFood = Food(id , txtName , txtPrice , txtDistance , txtCity , food.urlimage , food.numofrate , food.rating)
 
                 // update data :
                 MyAdapter.updataFood(newFood , position)
