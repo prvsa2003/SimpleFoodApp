@@ -7,12 +7,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.food.Room.Food
 import com.example.food.databinding.ActivityMainBinding
 import com.example.food.databinding.DaylogdeleteBinding
 import com.example.food.databinding.DialogAddNewItemBinding
 import com.example.food.databinding.UpdateBinding
 import java.util.Random
-
+//import room :
+//1.Entity
+//2.Dao
+//3.datatbase
 class MainActivity : AppCompatActivity() , Food_Adapter.FoodEvent {
     private lateinit var binding: ActivityMainBinding
      lateinit var MyAdapter : Food_Adapter
@@ -107,7 +111,7 @@ class MainActivity : AppCompatActivity() , Food_Adapter.FoodEvent {
 
     }
 
-    override fun onFoodClicked(food : Food , position: Int) {
+    override fun onFoodClicked(food : Food, position: Int) {
         val dialog = AlertDialog.Builder(this).create()
 
         val updateDialogBinding = UpdateBinding.inflate(layoutInflater)
