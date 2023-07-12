@@ -11,6 +11,8 @@ interface FoodDao {
 
     @Insert
     fun insertfood (food: Food)
+    @Insert
+    fun insertAllfood(data:List<Food>)
 
     @Update
     fun update(food: Food)

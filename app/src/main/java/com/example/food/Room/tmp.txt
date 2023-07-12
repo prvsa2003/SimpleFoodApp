@@ -1,0 +1,15 @@
+//        val foodlist = arrayListOf(
+//
+//            Food( "Pizza Regina" , "15" ,"3"  , "Italy" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/full_width_tablet_4_3/public/2022-06/pizza_regina_2.jpg" ,  20 , 5f),
+//            Food("Piccata Milanese" , "20.99" ,"67"  , "Milan" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-07/schnitzel_milanese_1_0.jpg" ,  45 , 4.5f),
+//            Food("Hamburger Labskaus" , "12"  , "87" , "Berlin" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-07/2022_hamburger-labskaus_aufmacher.jpg" , 100 , 3f),
+//            Food("Badisches Schäufele" , "10" , "56" , "Paris" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-09/badisches_schaeufele_1_4.jpg" , 78 , 2.5f ),
+//            Food("Hackbraten mit Ei" , "9.99" , "85" , "Frankfurt" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-11/2022_hackbraten-mit-ei_aufmacher.jpg" , 90  , 1f ) ,
+//            Food("Glutenfreier Nudelsalat" , "20" , "`76" , "Cologne" , "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-06/glutenfreier_nudelsalat_15540.jpg" , 345 , 3.5f) ,
+//            Food("Pulpoarme" , "89,99" ,"786" , "Pekan" , "https://dsee-os-cdn.azureedge.net/public/thumbnail/ed/e7/3b/1611045421/pulpo_1280x1280.jpg" , 879 , 1.5f ) ,
+//            Food("Caviar-Tasting " , "19,99" , "654" , "Hobart" , "https://dsee-os-cdn.azureedge.net/public/thumbnail/84/4b/bb/1633870444/Thunfischtatar-mit-Kaviartopping-Rezepte-Vorspeise-Aufmacher.jpg_400x400.jpg" , 239 , 5f) ,
+//            Food("Frutti di Mare Meeresfrüchte-Mix" , "15.99" ,"636"  , "perth" , "https://dsee-os-cdn.azureedge.net/public/thumbnail/cd/e9/25/1611046921/83495-frutti-di-mare-rezept1_400x400.jpg" ,  5678 , 3f),
+//            Food("Donald Russell" , "19,99" ,"500"  , "Antalia" , "https://dsee-os-cdn.azureedge.net/public/thumbnail/fa/a5/72/1611050998/24567-donald-russell-lamm-carree-kaufen-rezept-2_400x400.jpg" ,  3636 , 5f),
+//            Food("Rinder Roastbeef" , "169,99"  , "4687" , "Berlin" , "https://dsee-os-cdn.azureedge.net/public/thumbnail/e0/0c/44/1617867248/Surf-and-Turf-Rezepte-Tipps-von-Profis.jpg_400x400.jpg" , 1780 , 1.5f),
+//            Food("Räucherlachssalat" , "15,99" , "5856" , "Monikh" , "https://dsee-os-cdn.azureedge.net/public/thumbnail/cb/78/b2/1674196768/Raeucherlachsalat-Senf-Dill-Sauce-kaufen-25402-1_1280x1280.jpg" , 7866 , 2.5f ),
+//        )
