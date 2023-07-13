@@ -43,6 +43,13 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
         showalldata()
 
 
+
+        binding.btnremoveallfood.setOnClickListener {
+            foodDao.deletealldata()
+            showalldata()
+        }
+
+
 //
 //        binding.btnaddnewfood.setOnClickListener{
 //
@@ -230,6 +237,7 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
         foodDao.insertAllfood(foodlist)
     }
 
+
     override fun onFoodClicked(food: Food, position: Int) {
 //        val dialog = AlertDialog.Builder(this).create()
 //
@@ -286,6 +294,9 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
             dialog.dismiss()
         }
     }
+
+
+
 
 
 }

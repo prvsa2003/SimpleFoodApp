@@ -93,6 +93,7 @@ class Food_Adapter (private  val data :ArrayList<Food>, private  val foodevent :
 
         fun onFoodClicked(food : Food, position: Int)
         fun onFoodLongClicked(food : Food, position : Int)
+
     }
 
 
