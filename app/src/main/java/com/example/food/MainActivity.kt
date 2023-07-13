@@ -50,48 +50,12 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
         }
 
 
-//
-//        binding.btnaddnewfood.setOnClickListener{
-//
-//            val dialog = AlertDialog.Builder(this).create()
-//            val dialog_bindinig = DialogAddNewItemBinding.inflate(layoutInflater)
-//            dialog.setView(dialog_bindinig.root)
-//            dialog.setCancelable(true)
-//            dialog.show()
-//
-//            dialog_bindinig.dialogBtnDone.setOnClickListener{
-//                if(
-//                    dialog_bindinig.dialogEdtFoodCity.length()>0 &&
-//                    dialog_bindinig.dialogEdtFoodDistance.length()>0 &&
-//                    dialog_bindinig.dialogEdtFoodPrice.length()>0 &&
-//                    dialog_bindinig.dialogEdtNameFood.length()>0
-//                ) {
-//                    val txtName = dialog_bindinig.dialogEdtNameFood.text.toString()
-//                    val txtCity = dialog_bindinig.dialogEdtFoodCity.text.toString()
-//                    val txtDistance = dialog_bindinig.dialogEdtFoodDistance.text.toString()
-//                    val txtPrice = dialog_bindinig.dialogEdtFoodPrice.text.toString()
-//                    val txtRateingNumber :Int = (1..150).random()
-//                    val min = 0f
-//                    val max = 5f
-//                    val random :Float = min + Random().nextFloat()*(max-min)
-//                    val ratingBarStar :Float = random
-//                    val randomforurl = (0 until 12).random()
-//                    val urlPic = foodlist[randomforurl].urlimage
-//                    val newfood = Food(id,txtName , txtPrice , txtDistance , txtCity  , urlPic , txtRateingNumber , ratingBarStar)
-//                    MyAdapter.AddFood(newfood)
-//
-//                    binding.recycleMain.scrollToPosition(0)
-//                    dialog.dismiss()
-//                }else{
-//                    Toast.makeText(this, "Please type something...", Toast.LENGTH_SHORT).show()
-//                }
-//
-//
-//
-//            }
-//
-//
-//        }
+
+        binding.btnaddnewfood.setOnClickListener{
+
+            addnewfood()
+        }
+
 //
 //        binding.Search.addTextChangedListener {
 //            if(it!!.isNotEmpty()){
@@ -107,11 +71,33 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
 //            }else{
 //                //show all data :
 //                MyAdapter.setData(foodlist.clone() as ArrayList<Food>)
-//            }
-//        }
+////             }
+       }
 
-
+    override fun onFoodClicked(food: Food, position: Int) {
+        TODO("Not yet implemented")
     }
+
+    override fun onFoodLongClicked(food: Food, position: Int) {
+        //نمایش دیالوگ
+        val dialog = AlertDialog.Builder(this).create()
+        val dialogdeletbinding = DaylogdeleteBinding.inflate(layoutInflater)
+        dialog.setView(dialogdeletbinding.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        dialogdeletbinding.dialogBtnDeleteCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogdeletbinding.dialogBtnDeleteSure.setOnClickListener {
+            MyAdapter.deletefood(food, position)
+            foodDao.deletefood(food)
+            dialog.dismiss()
+        }
+    }
+
+
+}
 
     private fun showalldata() {
         val foodData = foodDao.getallfood()
@@ -277,26 +263,49 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
 //        dialog.show()
     }
 
-    override fun onFoodLongClicked(food: Food, position: Int) {
-        //نمایش دیالوگ
-        val dialog = AlertDialog.Builder(this) .create()
-        val dialogdeletbinding = DaylogdeleteBinding.inflate(layoutInflater)
-        dialog.setView(dialogdeletbinding.root)
-        dialog.setCancelable(true)
-        dialog.show()
 
-        dialogdeletbinding.dialogBtnDeleteCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialogdeletbinding.dialogBtnDeleteSure.setOnClickListener {
-            MyAdapter.deletefood(food , position)
-            foodDao.deletefood(food)
-            dialog.dismiss()
-        }
     }
 
 
 
+    private fun addnewfood(){
+
+        val dialog = AlertDialog.Builder(this).create()
+        val dialog_bindinig = DialogAddNewItemBinding.inflate(layoutInflater)
+        dialog.setView(dialog_bindinig.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        dialog_bindinig.dialogBtnDone.setOnClickListener{
+            if(
+                dialog_bindinig.dialogEdtFoodCity.length()>0 &&
+                dialog_bindinig.dialogEdtFoodDistance.length()>0 &&
+                dialog_bindinig.dialogEdtFoodPrice.length()>0 &&
+                dialog_bindinig.dialogEdtNameFood.length()>0
+            ) {
+                val txtName = dialog_bindinig.dialogEdtNameFood.text.toString()
+                val txtCity = dialog_bindinig.dialogEdtFoodCity.text.toString()
+                val txtDistance = dialog_bindinig.dialogEdtFoodDistance.text.toString()
+                val txtPrice = dialog_bindinig.dialogEdtFoodPrice.text.toString()
+                val txtRateingNumber :Int = (1..150).random()
+                val min = 0f
+                val max = 5f
+                val random :Float = min + Random().nextFloat()*(max-min)
+                val ratingBarStar :Float = random
+                val randomforurl = (0 until 12).random()
+                val urlPic = foodlist[randomforurl].urlimage
+                val newfood = Food(txtsubject = txtName , price = txtPrice , distance = txtDistance , txtcity =  txtCity  , urlimage =  urlPic , numofrate =  txtRateingNumber ,  rating = ratingBarStar)
+                MyAdapter.AddFood(newfood)
+
+                binding.recycleMain.scrollToPosition(0)
+                dialog.dismiss()
+            }else{
+                Toast.makeText(this, "Please type something...", Toast.LENGTH_SHORT).show()
+            }
+
+
+
+        }
 
 
 }
