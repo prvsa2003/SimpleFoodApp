@@ -270,19 +270,21 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
     }
 
     override fun onFoodLongClicked(food: Food, position: Int) {
-//        val dialog = AlertDialog.Builder(this) .create()
-//        val dialogdeletbinding = DaylogdeleteBinding.inflate(layoutInflater)
-//        dialog.setView(dialogdeletbinding.root)
-//        dialog.setCancelable(true)
-//        dialog.show()
-//
-//        dialogdeletbinding.dialogBtnDeleteCancel.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        dialogdeletbinding.dialogBtnDeleteSure.setOnClickListener {
-//            MyAdapter.deletefood(food , position)
-//            dialog.dismiss()
-//        }
+        //نمایش دیالوگ
+        val dialog = AlertDialog.Builder(this) .create()
+        val dialogdeletbinding = DaylogdeleteBinding.inflate(layoutInflater)
+        dialog.setView(dialogdeletbinding.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        dialogdeletbinding.dialogBtnDeleteCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogdeletbinding.dialogBtnDeleteSure.setOnClickListener {
+            MyAdapter.deletefood(food , position)
+            foodDao.deletefood(food)
+            dialog.dismiss()
+        }
     }
 
 
