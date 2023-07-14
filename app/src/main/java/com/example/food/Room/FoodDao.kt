@@ -3,19 +3,21 @@ package com.example.food.Room
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 
 @Dao
 interface FoodDao {
-
-    @Insert
-    fun insertfood (food: Food)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrUpdate(food: Food)
+//    @Insert
+//    fun insertfood (food: Food)
     @Insert
     fun insertAllfood(data:List<Food>)
 
-    @Update
-    fun update(food: Food)
+//    @Update
+//    fun update(food: Food)
 
     //چرا کوئری زدیم ؟ چون اینجا نمیتونست بفهمه چجوری بگیره
     @Query("select * from table_food")

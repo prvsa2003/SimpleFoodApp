@@ -3,6 +3,7 @@ package com.example.food
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
     private lateinit var binding: ActivityMainBinding
     lateinit var MyAdapter: Food_Adapter
     lateinit var foodDao: FoodDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -56,44 +58,25 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
             addnewfood()
         }
 
-//
-//        binding.Search.addTextChangedListener {
-//            if(it!!.isNotEmpty()){
-//                //filter data :
-//              val cloneList = foodlist.clone() as ArrayList<Food>
-//                val filteredList = cloneList.filter {
-//                     food ->
-//                    food.txtsubject.contains(it)
-//                }
-//                MyAdapter.setData( ArrayList(filteredList))
-//
-//
-//            }else{
-//                //show all data :
-//                MyAdapter.setData(foodlist.clone() as ArrayList<Food>)
-////             }
-    }
 
+        binding.Search.addTextChangedListener {
+            searchondatabase(it.toString())
 
-    override fun onFoodLongClicked(food: Food, position: Int) {
-        //نمایش دیالوگ
-        val dialog = AlertDialog.Builder(this).create()
-        val dialogdeletbinding = DaylogdeleteBinding.inflate(layoutInflater)
-        dialog.setView(dialogdeletbinding.root)
-        dialog.setCancelable(true)
-        dialog.show()
-
-        dialogdeletbinding.dialogBtnDeleteCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialogdeletbinding.dialogBtnDeleteSure.setOnClickListener {
-            MyAdapter.deletefood(food, position)
-            foodDao.deletefood(food)
-            dialog.dismiss()
         }
     }
 
 
+    private fun searchondatabase(it: String) {
+        if (it.isNotEmpty()) {
+            //filter data :
+            val datasearch = foodDao.searchfood(it)
+            MyAdapter.setData(ArrayList(datasearch))
+        } else {
+            //show all data :
+            val data = foodDao.getallfood()
+            MyAdapter.setData(data as ArrayList<Food>)
+        }
+    }
     private fun showalldata() {
         val foodData = foodDao.getallfood()
         MyAdapter = Food_Adapter(ArrayList(foodData), this)
@@ -102,6 +85,78 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
         binding.recycleMain.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
     }
+    private fun addnewfood() {
+
+        val dialog = AlertDialog.Builder(this).create()
+        val dialog_bindinig = DialogAddNewItemBinding.inflate(layoutInflater)
+        dialog.setView(dialog_bindinig.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        dialog_bindinig.dialogBtnDone.setOnClickListener {
+            if (
+                dialog_bindinig.dialogEdtFoodCity.length() > 0 &&
+                dialog_bindinig.dialogEdtFoodDistance.length() > 0 &&
+                dialog_bindinig.dialogEdtFoodPrice.length() > 0 &&
+                dialog_bindinig.dialogEdtNameFood.length() > 0
+            ) {
+                val txtName = dialog_bindinig.dialogEdtNameFood.text.toString()
+                val txtCity = dialog_bindinig.dialogEdtFoodCity.text.toString()
+                val txtDistance = dialog_bindinig.dialogEdtFoodDistance.text.toString()
+                val txtPrice = dialog_bindinig.dialogEdtFoodPrice.text.toString()
+                val txtRateingNumber: Int = (1..150).random()
+                val min = 0f
+                val max = 5f
+                val random: Float = min + Random().nextFloat() * (max - min)
+                val ratingBarStar: Float = random
+
+
+                fun pic() :String{
+                    val img = arrayOf(
+                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/full_width_tablet_4_3/public/2022-06/pizza_regina_2.jpg",
+                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-07/schnitzel_milanese_1_0.jpg",
+                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-07/2022_hamburger-labskaus_aufmacher.jpg",
+                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-09/badisches_schaeufele_1_4.jpg",
+                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-11/2022_hackbraten-mit-ei_aufmacher.jpg",
+                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-06/glutenfreier_nudelsalat_15540.jpg",
+                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/ed/e7/3b/1611045421/pulpo_1280x1280.jpg",
+                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/84/4b/bb/1633870444/Thunfischtatar-mit-Kaviartopping-Rezepte-Vorspeise-Aufmacher.jpg_400x400.jpg",
+                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/cd/e9/25/1611046921/83495-frutti-di-mare-rezept1_400x400.jpg",
+                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/fa/a5/72/1611050998/24567-donald-russell-lamm-carree-kaufen-rezept-2_400x400.jpg",
+                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/e0/0c/44/1617867248/Surf-and-Turf-Rezepte-Tipps-von-Profis.jpg_400x400.jpg",
+                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/cb/78/b2/1674196768/Raeucherlachsalat-Senf-Dill-Sauce-kaufen-25402-1_1280x1280.jpg"
+                    )
+                    val randomIndex = Random().nextInt(12)
+                    return img[randomIndex]
+                }
+
+
+
+                val newfood = Food(
+                    txtsubject = txtName,
+                    price = txtPrice,
+                    distance = txtDistance,
+                    txtcity = txtCity,
+                    urlimage = pic(),
+                    numofrate = txtRateingNumber,
+                    rating = ratingBarStar
+                )
+                MyAdapter.AddFood(newfood)
+                foodDao.insertOrUpdate(newfood)
+                dialog.dismiss()
+                //به اولین بخش اضافه بشه پوزیشن اول 0
+                binding.recycleMain.scrollToPosition(0)
+
+            } else {
+                Toast.makeText(this, "Please type something...", Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+
+
+    }
+
 
     private fun firstrun() {
         val foodlist = arrayListOf(
@@ -219,6 +274,23 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
     }
 
 
+    override fun onFoodLongClicked(food: Food, position: Int) {
+        //نمایش دیالوگ
+        val dialog = AlertDialog.Builder(this).create()
+        val dialogdeletbinding = DaylogdeleteBinding.inflate(layoutInflater)
+        dialog.setView(dialogdeletbinding.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        dialogdeletbinding.dialogBtnDeleteCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogdeletbinding.dialogBtnDeleteSure.setOnClickListener {
+            MyAdapter.deletefood(food, position)
+            foodDao.deletefood(food)
+            dialog.dismiss()
+        }
+    }
     override fun onFoodClicked(food: Food, position: Int) {
         val dialog = AlertDialog.Builder(this).create()
 
@@ -245,13 +317,13 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
                 val txtCity = updateDialogBinding.dialogEdtFoodCity.text.toString()
                 val txtDistance = updateDialogBinding.dialogEdtFoodDistance.text.toString()
                 val txtPrice = updateDialogBinding.dialogEdtFoodPrice.text.toString()
-                    //Create New Fool To Add Recycler View
+                //Create New Fool To Add Recycler View
                 val newFood = Food(id = food.id , txtsubject =  txtName , price =  txtPrice , distance =  txtDistance , txtcity = txtCity , urlimage = food.urlimage ,numofrate= food.numofrate , rating=food.rating)
 
                 // update data :
                 MyAdapter.updataFood(newFood , position)
                 // update item in database
-                foodDao.update(newFood)
+                foodDao.insertOrUpdate(newFood)
                 dialog.dismiss()
             }else{
                 Toast.makeText(this, "Please enter all values", Toast.LENGTH_SHORT).show()
@@ -260,79 +332,6 @@ class MainActivity : AppCompatActivity(), Food_Adapter.FoodEvent {
         dialog.setView(updateDialogBinding.root)
         dialog.setCancelable(true)
         dialog.show()
-    }
-
-
-    private fun addnewfood() {
-
-        val dialog = AlertDialog.Builder(this).create()
-        val dialog_bindinig = DialogAddNewItemBinding.inflate(layoutInflater)
-        dialog.setView(dialog_bindinig.root)
-        dialog.setCancelable(true)
-        dialog.show()
-
-        dialog_bindinig.dialogBtnDone.setOnClickListener {
-            if (
-                dialog_bindinig.dialogEdtFoodCity.length() > 0 &&
-                dialog_bindinig.dialogEdtFoodDistance.length() > 0 &&
-                dialog_bindinig.dialogEdtFoodPrice.length() > 0 &&
-                dialog_bindinig.dialogEdtNameFood.length() > 0
-            ) {
-                val txtName = dialog_bindinig.dialogEdtNameFood.text.toString()
-                val txtCity = dialog_bindinig.dialogEdtFoodCity.text.toString()
-                val txtDistance = dialog_bindinig.dialogEdtFoodDistance.text.toString()
-                val txtPrice = dialog_bindinig.dialogEdtFoodPrice.text.toString()
-                val txtRateingNumber: Int = (1..150).random()
-                val min = 0f
-                val max = 5f
-                val random: Float = min + Random().nextFloat() * (max - min)
-                val ratingBarStar: Float = random
-
-
-                fun pic() :String{
-                    val img = arrayOf(
-                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/full_width_tablet_4_3/public/2022-06/pizza_regina_2.jpg",
-                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-07/schnitzel_milanese_1_0.jpg",
-                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-07/2022_hamburger-labskaus_aufmacher.jpg",
-                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2021-09/badisches_schaeufele_1_4.jpg",
-                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-11/2022_hackbraten-mit-ei_aufmacher.jpg",
-                        "https://www.einfachkochen.de/sites/einfachkochen.de/files/styles/700_530/public/2022-06/glutenfreier_nudelsalat_15540.jpg",
-                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/ed/e7/3b/1611045421/pulpo_1280x1280.jpg",
-                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/84/4b/bb/1633870444/Thunfischtatar-mit-Kaviartopping-Rezepte-Vorspeise-Aufmacher.jpg_400x400.jpg",
-                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/cd/e9/25/1611046921/83495-frutti-di-mare-rezept1_400x400.jpg",
-                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/fa/a5/72/1611050998/24567-donald-russell-lamm-carree-kaufen-rezept-2_400x400.jpg",
-                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/e0/0c/44/1617867248/Surf-and-Turf-Rezepte-Tipps-von-Profis.jpg_400x400.jpg",
-                        "https://dsee-os-cdn.azureedge.net/public/thumbnail/cb/78/b2/1674196768/Raeucherlachsalat-Senf-Dill-Sauce-kaufen-25402-1_1280x1280.jpg"
-                    )
-                    val randomIndex = Random().nextInt(12)
-                    return img[randomIndex]
-                }
-
-
-
-                val newfood = Food(
-                    txtsubject = txtName,
-                    price = txtPrice,
-                    distance = txtDistance,
-                    txtcity = txtCity,
-                    urlimage = pic(),
-                    numofrate = txtRateingNumber,
-                    rating = ratingBarStar
-                )
-                MyAdapter.AddFood(newfood)
-                foodDao.insertfood(newfood)
-                dialog.dismiss()
-                //به اولین بخش اضافه بشه پوزیشن اول 0
-                binding.recycleMain.scrollToPosition(0)
-
-            } else {
-                Toast.makeText(this, "Please type something...", Toast.LENGTH_SHORT).show()
-            }
-
-
-        }
-
-
     }
 
 
